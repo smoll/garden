@@ -5,7 +5,7 @@ Feature: lint
       """
       Feature: Valid Title
       """
-    When I run `greens`
+    When I run `garden`
     Then the output should contain exactly "1 file(s) inspected, no offenses detected\n"
 
   Scenario: feature text does not match filename
@@ -13,5 +13,5 @@ Feature: lint
       """
       Feature: mismatched feature title LOL
       """
-    When I run `greens`
+    When I run `garden`
     Then the output should contain exactly "foo/mismatched_feature_title.feature:1\nFeature: mismatched feature title LOL\n^^^ feature title does not match file name\n\n1 file(s) inspected, 1 offense(s) detected\n"

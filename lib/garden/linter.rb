@@ -1,7 +1,7 @@
 require "gherkin3/parser"
 require "gherkin3/token_scanner"
 
-module Greens
+module Garden
   # Parse then lint a collection of .feature files for violations
   class Linter
     def initialize(files)
@@ -35,7 +35,7 @@ module Greens
 
       found = check_for_name_mismatch(parsed, fname)
       # TODO: consider
-      # 1) making checks raise a Greens::Violation error class
+      # 1) making checks raise a Garden::Violation error class
       # 2) moving checks into their own module when there are a lot of them
 
       @results[fname] = found if found

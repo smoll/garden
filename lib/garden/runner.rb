@@ -1,6 +1,6 @@
-require "greens/app"
+require "garden/app"
 
-module Greens
+module Garden
   # Aruba In Process + Thor integration
   # Based on https://github.com/erikhuda/thor/wiki/Integrating-with-Aruba-In-Process-Runs
   class Runner
@@ -21,7 +21,7 @@ module Greens
         $stdout = @stdout
 
         # Run our normal Thor app the way we know and love.
-        Greens::App.start(@argv)
+        Garden::App.start(@argv)
 
         # Thor::Base#start does not have a return value, assume success if no exception is raised.
         0

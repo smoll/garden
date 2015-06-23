@@ -1,6 +1,6 @@
 require "aruba/cucumber"
 require "aruba/in_process"
-require "greens/runner"
+require "garden/runner"
 
-Aruba::InProcess.main_class = Greens::Runner
+Aruba::InProcess.main_class = Garden::Runner
 Aruba.process = Aruba::InProcess

@@ -1,7 +1,7 @@
-greens
+garden
 ===
 
-[![Circle CI](https://circleci.com/gh/smoll/greens.svg?style=svg)](https://circleci.com/gh/smoll/greens)
+[![Circle CI](https://circleci.com/gh/smoll/garden.svg?style=svg)](https://circleci.com/gh/smoll/garden)
 
 Simple Gherkin .feature file linter
 
@@ -25,10 +25,10 @@ bundle exec rake test
 
 ## Testing
 
-To test the `greens` binary locally, `cd` to the repo root and run
+To test the `garden` binary locally, `cd` to the repo root and run
 
 ```
-ruby -Ilib ./bin/greens help
+ruby -Ilib ./bin/garden help
 ```
 
 

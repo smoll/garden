@@ -1,7 +1,7 @@
 require "thor"
-require "greens/linter"
+require "garden/linter"
 
-module Greens
+module Garden
   # Main Thor application
   # Subcommands map directly to instance methods in this class.
   # e.g. entering `thor whatever` in your terminal should invoke the App#whatever method
