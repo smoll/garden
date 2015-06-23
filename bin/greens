@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "greens/runner"
+
+Greens::Runner.new(ARGV.dup).execute!
