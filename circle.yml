@@ -1,0 +1,6 @@
+dependencies:
+  override:
+    - bundle install --path vendor/cache
+test:
+  override:
+    - bundle exec rake test
