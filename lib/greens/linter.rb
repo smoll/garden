@@ -1,6 +1,8 @@
+require "gherkin3/parser"
+require "gherkin3/token_scanner"
+
 module Greens
-  # Parse and lint .feature file as plain text file
-  # TODO: use the Gherkin3 parser when this gets more complex
+  # Parse then lint a collection of .feature files for violations
   class Linter
     def initialize(files)
       @files = files
@@ -13,9 +15,9 @@ module Greens
 
     def print_results
       @results.each do |file, violation_data|
-        puts "#{file}:#{violation_data[:lineno]}"
-        puts "#{violation_data[:line]}"
-        puts "^^^ #{violation_data[:violation]}"
+        puts "#{file}:#{violation_data[:line]}"
+        puts "#{violation_data[:text_of_line]}"
+        puts "#{' ' * (violation_data[:column] - 1)}^^^ #{violation_data[:violation]}"
         puts ""
       end
 
@@ -27,19 +29,30 @@ module Greens
     private
 
     def parse_single_file(fname)
-      File.open(fname).each_line.with_index do |line, lineno| # lineno is 0-indexed
-        found = check_for_violations(line, fname)
-        next unless found
-        @results[fname] = { line: line, lineno: lineno + 1, violation: found }
-      end
+      parser = Gherkin3::Parser.new
+      token = Gherkin3::TokenScanner.new(fname)
+      parsed = parser.parse(token)
+
+      found = check_for_name_mismatch(parsed, fname)
+      # TODO: consider
+      # 1) making checks raise a Greens::Violation error class
+      # 2) moving checks into their own module when there are a lot of them
+
+      @results[fname] = found if found
     end
 
-    def check_for_violations(str, path)
+    # Returns nil if no violation, or if there is one:
+    # { line: 1, column: 1, text_of_line: "Feature: thing", violation: "feature title does not match file name" }
+    def check_for_name_mismatch(parsed, path)
       file_name_only = File.basename(path, ".*")
-      return unless str.strip.start_with? "Feature:"
+      return if parsed[:name].downcase.gsub(" ", "_") == file_name_only
 
-      formatted = str.sub("Feature:", "").strip.sub(" ", "_").downcase
-      return "feature title does not match file name" if formatted != file_name_only
+      res = {}
+      res[:line] = parsed[:location][:line]
+      res[:column] = parsed[:location][:column]
+      res[:text_of_line] = "#{parsed[:keyword]}: #{parsed[:name]}" # TODO: get actual line contents
+      res[:violation] = "feature title does not match file name"
+      res
     end
   end
 end
