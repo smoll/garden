@@ -1,3 +1,4 @@
+@wip
 Feature: lint
 
   Scenario: feature text matches, with flexible capitalization

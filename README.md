@@ -1,6 +1,8 @@
 greens
 ===
 
+[![Circle CI](https://circleci.com/gh/smoll/greens.svg?style=svg)](https://circleci.com/gh/smoll/greens)
+
 Simple Gherkin .feature file linter
 
 **NOTE: This project is still under early-stage development**
@@ -17,10 +19,8 @@ bundle install
 Run tests
 
 ```
-bundle exec cucumber
+bundle exec rake test
 ```
-
-which runs the [feature files](./features) via the Aruba CLI test runner (unit tests pending.)
 
 
 ## Testing

@@ -1,0 +1,6 @@
+<%
+std_opts = "--color --tags ~@wip"
+wip_opts = "--color --tags @wip"
+%>
+default: <%= std_opts %>
+wip: --wip <%= wip_opts %>
