@@ -1,9 +1,8 @@
-# Aruba In Process + Thor integration
-# Based on https://github.com/erikhuda/thor/wiki/Integrating-with-Aruba-In-Process-Runs
-
 require "greens/app"
 
 module Greens
+  # Aruba In Process + Thor integration
+  # Based on https://github.com/erikhuda/thor/wiki/Integrating-with-Aruba-In-Process-Runs
   class Runner
     # Allow everything fun to be injected from the outside while defaulting to normal implementations.
     def initialize(argv, stdin = STDIN, stdout = STDOUT, stderr = STDERR, kernel = Kernel)
