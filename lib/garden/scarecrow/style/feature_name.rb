@@ -13,8 +13,9 @@ module Garden
         # { line: 1, column: 1, text_of_line: "Feature: thing", message: "feature title does not match file name" }
         def run
           return unless @config["Enabled"]
-          file_name_only = File.basename(@path, ".*")
-          return if feature[:name].downcase.gsub(" ", "_") == file_name_only
+
+          filename_without_extension = File.basename(@path, ".*")
+          return if feature[:name].downcase.gsub(" ", "_") == filename_without_extension
 
           log_violation(feature[:location][:line], feature[:location][:column])
         end

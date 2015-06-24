@@ -28,6 +28,7 @@ module Garden
         msg ||= message
 
         violation = {}
+        violation[:file] = @path
         violation[:line] = line
         violation[:column] = col
         violation[:text_of_line] = raw_txt
@@ -36,6 +37,7 @@ module Garden
         @violations << violation
       end
 
+      # For readability in scarecrow subclasses
       def feature
         @parsed
       end

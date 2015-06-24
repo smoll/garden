@@ -14,16 +14,21 @@ module Garden
     def initialize(files, config_path)
       @files = files
       @config = ConfigStore.new(config_path).resolve
-      @results = {}
+      @results = []
     end
 
+    # Here we iterate through a list of files, then iterate through the list of
+    # desired scarecrows, passing each one the filename & parsed AST.
+    # This is fine for now, but to speed this up we could refactor this to do a
+    # single pass through the file, line-by-line, and flagging violations as
+    # they are encountered.
     def lint
       @files.each { |f| parse_single_file(f) }
     end
 
     def print_results
-      @results.each do |file, violation|
-        puts "#{file}:#{violation[:line]}"
+      @results.each do |violation|
+        puts "#{violation[:file]}:#{violation[:line]}"
         puts "#{violation[:text_of_line]}"
         puts "#{' ' * (violation[:column] - 1)}^^^ #{violation[:message]}"
         puts ""
@@ -44,9 +49,7 @@ module Garden
       @config.each do |sc, sc_hash|
         scarecrow = scarecrow_from_string(sc).new(parsed, fname, sc_hash)
         scarecrow.run
-        scarecrow.violations.each do |violation|
-          @results[fname] = violation
-        end
+        @results += scarecrow.violations
       end
     end
   end

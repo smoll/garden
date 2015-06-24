@@ -29,3 +29,16 @@ Feature: lint
       """
     When I run `garden`
     Then the output should contain exactly "foo/indentation.feature:5\n   Scenario: poorly indented\n   ^^^ inconsistent indentation detected\n\n1 file(s) inspected, 1 offense(s) detected\n"
+
+  Scenario: multiple issues
+    Given a file named "foo/multiple_issues.feature" with:
+      """
+       Feature: multiple issues
+
+        Scenario: correctly indented
+
+         Scenario: poorly indented
+          Then nothing
+      """
+    When I run `garden`
+    Then the output should contain "1 file(s) inspected, 2 offense(s) detected\n"
