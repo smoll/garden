@@ -1,4 +1,4 @@
-require "garden/app"
+require "garden/cli"
 
 begin # require any dev dependencies here
   require "byebug"
@@ -26,10 +26,13 @@ module Garden
         $stdout = @stdout
 
         # Run our normal Thor app the way we know and love.
-        Garden::App.start(@argv)
+        Garden::CLI.start(@argv)
 
         # Thor::Base#start does not have a return value, assume success if no exception is raised.
         0
+      rescue Garden::CustomError => e
+        @stderr.puts e.message
+        1
       rescue StandardError => e
         # The ruby interpreter would pipe this to STDERR and exit 1 in the case of an unhandled exception
         b = e.backtrace

@@ -1,11 +1,18 @@
 require "gherkin3/parser"
 require "gherkin3/token_scanner"
 
+require "garden/utils"
+require "garden/config_store"
+require "garden/scarecrow/style/feature_name"
+
 module Garden
   # Parse then lint a collection of .feature files for violations
   class Linter
-    def initialize(files)
+    include Utils
+
+    def initialize(files, config_path)
       @files = files
+      @config = ConfigStore.new(config_path).resolve
       @results = {}
     end
 
@@ -14,10 +21,10 @@ module Garden
     end
 
     def print_results
-      @results.each do |file, violation_data|
-        puts "#{file}:#{violation_data[:line]}"
-        puts "#{violation_data[:text_of_line]}"
-        puts "#{' ' * (violation_data[:column] - 1)}^^^ #{violation_data[:violation]}"
+      @results.each do |file, violation|
+        puts "#{file}:#{violation[:line]}"
+        puts "#{violation[:text_of_line]}"
+        puts "#{' ' * (violation[:column] - 1)}^^^ #{violation[:message]}"
         puts ""
       end
 
@@ -30,29 +37,13 @@ module Garden
 
     def parse_single_file(fname)
       parser = Gherkin3::Parser.new
-      token = Gherkin3::TokenScanner.new(fname)
-      parsed = parser.parse(token)
+      scanner = Gherkin3::TokenScanner.new(fname)
+      parsed = parser.parse(scanner)
 
-      found = check_for_name_mismatch(parsed, fname)
-      # TODO: consider
-      # 1) making checks raise a Garden::Violation error class
-      # 2) moving checks into their own module when there are a lot of them
-
-      @results[fname] = found if found
-    end
-
-    # Returns nil if no violation, or if there is one:
-    # { line: 1, column: 1, text_of_line: "Feature: thing", violation: "feature title does not match file name" }
-    def check_for_name_mismatch(parsed, path)
-      file_name_only = File.basename(path, ".*")
-      return if parsed[:name].downcase.gsub(" ", "_") == file_name_only
-
-      res = {}
-      res[:line] = parsed[:location][:line]
-      res[:column] = parsed[:location][:column]
-      res[:text_of_line] = "#{parsed[:keyword]}: #{parsed[:name]}" # TODO: get actual line contents
-      res[:violation] = "feature title does not match file name"
-      res
+      @config.each do |sc, sc_hash|
+        found = scarecrow_from_string(sc).new.run(parsed, fname) if sc_hash["Enabled"]
+        @results[fname] = found if found
+      end
     end
   end
 end
