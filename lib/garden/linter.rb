@@ -41,7 +41,7 @@ module Garden
       parsed = parser.parse(scanner)
 
       @config.each do |sc, sc_hash|
-        found = scarecrow_from_string(sc).new.run(parsed, fname) if sc_hash["Enabled"]
+        found = scarecrow_from_string(sc).new(parsed, fname).run if sc_hash["Enabled"]
         @results[fname] = found if found
       end
     end
