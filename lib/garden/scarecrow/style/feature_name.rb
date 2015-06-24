@@ -9,8 +9,6 @@ module Garden
       class FeatureName < Base
         MSG = "feature title does not match file name"
 
-        # Returns nil if no violation, or if there is one:
-        # { line: 1, column: 1, text_of_line: "Feature: thing", message: "feature title does not match file name" }
         def run
           return unless @config["Enabled"]
 

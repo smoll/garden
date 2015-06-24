@@ -17,4 +17,10 @@ end
 desc "Run tests, both (todo) RSpec and Cucumber"
 task test: [:rubocop, :cucumber, :cucumber_wip]
 
-task default: :test
+desc "Eat your own dogfood (Run garden against .feature files in this repo)"
+task :dogfooding do
+  rm_rf "tmp" # So temp test files don't fail the dogfood test
+  sh "bundle exec ruby -Ilib ./bin/garden"
+end
+
+task default: [:test, :dogfooding]
