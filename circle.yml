@@ -1,6 +1,9 @@
 dependencies:
   override:
     - bundle install --without debug --path vendor/cache
+  cache_directories:
+    - "vendor/cache"
+
 test:
   override:
     - bundle exec rake test
