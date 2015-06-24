@@ -20,7 +20,7 @@ task test: [:rubocop, :cucumber, :cucumber_wip]
 desc "Eat your own dogfood (Run garden against .feature files in this repo)"
 task :dogfooding do
   rm_rf "tmp" # So temp test files don't fail the dogfood test
-  sh "ruby -Ilib ./bin/garden"
+  sh "bundle exec ruby -Ilib ./bin/garden"
 end
 
 task default: [:test, :dogfooding]

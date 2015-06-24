@@ -1,3 +1,5 @@
+require "yaml"
+
 module Garden
   # Read configs from a user-specified garden.yml or fallback to defaults
   class ConfigStore
