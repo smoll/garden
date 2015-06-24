@@ -4,6 +4,7 @@ require "gherkin3/token_scanner"
 require "garden/utils"
 require "garden/config_store"
 require "garden/scarecrow/style/feature_name"
+require "garden/scarecrow/style/indentation_width"
 
 module Garden
   # Parse then lint a collection of .feature files for violations
@@ -41,8 +42,11 @@ module Garden
       parsed = parser.parse(scanner)
 
       @config.each do |sc, sc_hash|
-        found = scarecrow_from_string(sc).new(parsed, fname).run if sc_hash["Enabled"]
-        @results[fname] = found if found
+        scarecrow = scarecrow_from_string(sc).new(parsed, fname, sc_hash)
+        scarecrow.run
+        scarecrow.violations.each do |violation|
+          @results[fname] = violation
+        end
       end
     end
   end

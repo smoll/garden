@@ -12,15 +12,11 @@ module Garden
         # Returns nil if no violation, or if there is one:
         # { line: 1, column: 1, text_of_line: "Feature: thing", message: "feature title does not match file name" }
         def run
+          return unless @config["Enabled"]
           file_name_only = File.basename(@path, ".*")
-          return if @parsed[:name].downcase.gsub(" ", "_") == file_name_only
+          return if feature[:name].downcase.gsub(" ", "_") == file_name_only
 
-          res = {}
-          res[:line] = @parsed[:location][:line]
-          res[:column] = @parsed[:location][:column]
-          res[:text_of_line] = raw_line @parsed[:location][:line]
-          res[:message] = MSG
-          res
+          log_violation(feature[:location][:line], feature[:location][:column])
         end
       end
     end

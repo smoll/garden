@@ -1,2 +1,7 @@
 Style/FeatureName:
   Enabled: true
+
+Style/IndentationWidth:
+  Enabled: true
+  # Number of spaces for each indentation level.
+  Width: 2
