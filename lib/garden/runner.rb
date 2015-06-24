@@ -1,5 +1,10 @@
 require "garden/app"
 
+begin # require any dev dependencies here
+  require "byebug"
+rescue LoadError # rubocop:disable Lint/HandleExceptions
+end
+
 module Garden
   # Aruba In Process + Thor integration
   # Based on https://github.com/erikhuda/thor/wiki/Integrating-with-Aruba-In-Process-Runs
