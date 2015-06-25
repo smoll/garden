@@ -1,7 +1,7 @@
 require "simplecov"
 require "aruba/cucumber"
 require "aruba/in_process"
-require "garden/runner"
+require "greener/runner"
 
-Aruba::InProcess.main_class = Garden::Runner
+Aruba::InProcess.main_class = Greener::Runner
 Aruba.process = Aruba::InProcess

@@ -1,9 +1,9 @@
-garden
+greener
 ===
 
-[![Circle CI](https://circleci.com/gh/smoll/garden.svg?style=svg)](https://circleci.com/gh/smoll/garden) [![Code Climate](https://codeclimate.com/github/smoll/garden/badges/gpa.svg)](https://codeclimate.com/github/smoll/garden) [![Coverage Status](https://coveralls.io/repos/smoll/garden/badge.svg?branch=master)](https://coveralls.io/r/smoll/garden?branch=master)
+[![Circle CI](https://circleci.com/gh/smoll/greener.svg?style=svg)](https://circleci.com/gh/smoll/greener) [![Code Climate](https://codeclimate.com/github/smoll/greener/badges/gpa.svg)](https://codeclimate.com/github/smoll/greener) [![Coverage Status](https://coveralls.io/repos/smoll/greener/badge.svg?branch=master)](https://coveralls.io/r/smoll/greener?branch=master)
 
-Simple Gherkin .feature file linter
+A Gherkin .feature file linter
 
 **NOTE: This project is still under early-stage development**
 
@@ -38,9 +38,9 @@ rm -rf coverage && rspec && open coverage/index.html
 
 ## Testing
 
-To test the `garden` binary locally, `cd` to the repo root and run
+To test the `greener` binary locally, `cd` to the repo root and run
 ```
-RUBYLIB=lib bundle exec ruby bin/garden
+RUBYLIB=lib bundle exec ruby bin/greener
 ```
 Based on [this answer](http://stackoverflow.com/a/23367196/3456726).
 

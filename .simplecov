@@ -27,5 +27,5 @@ SimpleCov.configure do
     end
   end
 
-  add_group "Scarecrows", "lib/garden/scarecrow"
+  add_group "Checkers", "lib/greener/checker"
 end

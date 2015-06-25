@@ -1,6 +1,6 @@
 Feature: configuration
 
-  Scenario: disable scarecrow via config file
+  Scenario: disable checker via config file
     Given a file named "foo/mismatched_feature_title.feature" with:
       """
       Feature: mismatched feature title LOL
@@ -10,10 +10,10 @@ Feature: configuration
       Style/FeatureName:
         Enabled: false
       """
-    When I run `garden --config config/disabled.yml`
+    When I run `greener --config config/disabled.yml`
     Then the output should contain exactly "1 file(s) inspected, no offenses detected\n"
 
-  Scenario: invalid scarecrow specified in config
+  Scenario: invalid checker specified in config
     Given a file named "foo/something.feature" with:
       """
       Feature: something
@@ -23,8 +23,8 @@ Feature: configuration
       Style/NotEvenReal:
         Enabled: false
       """
-    When I run `garden --config config/invalid.yml`
-    Then the output should contain exactly "Unknown scarecrow specified: Style/NotEvenReal\n"
+    When I run `greener --config config/invalid.yml`
+    Then the output should contain exactly "Unknown checker specified: Style/NotEvenReal\n"
 
   Scenario: complex configuration
     Given a file named "foo/indentation_too.feature" with:
@@ -45,5 +45,5 @@ Feature: configuration
         Enabled: true
         Width: 4
       """
-    When I run `garden --config config/complex.yml`
+    When I run `greener --config config/complex.yml`
     Then the output should contain exactly "1 file(s) inspected, no offenses detected\n"

@@ -1,6 +1,6 @@
-module Garden
-  module Scarecrow
-    # Base scarecrow class
+module Greener
+  module Checker
+    # Base checker class
     class Base
       attr_reader :violations
 
@@ -12,11 +12,11 @@ module Garden
         @violations = []
       end
 
-      # Method invoked when a scarecrow is applied to a file
+      # Method invoked when a checker is applied to a file
       def run
       end
 
-      # Read the violation message text set in the scarecrow subclass
+      # Read the violation message text set in the checker subclass
       def message
         self.class::MSG
       end
@@ -37,7 +37,7 @@ module Garden
         @violations << violation
       end
 
-      # For readability in scarecrow subclasses
+      # For readability in checker subclasses
       def feature
         @parsed
       end

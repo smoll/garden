@@ -1,7 +1,7 @@
-require "garden/scarecrow/base"
+require "greener/checker/base"
 
-module Garden
-  module Scarecrow
+module Greener
+  module Checker
     module Style
       # Ensure .feature filename matches feature name in the Gherkin
       # e.g. filename_of_feature.feature => "Feature: filename of feature"

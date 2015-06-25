@@ -1,6 +1,6 @@
 require "simplecov" # see .simplecov
 
-require "garden" # See http://stackoverflow.com/a/27311957/3456726
+require "greener" # See http://stackoverflow.com/a/27311957/3456726
 
 # Require aruba/rspec this way, https://github.com/cucumber/aruba#rspec
 # Also http://makandracards.com/makandra/1115-where-to-put-custom-rspec-matchers

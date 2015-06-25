@@ -1,4 +1,4 @@
-RSpec.describe Garden::ConfigStore do
+RSpec.describe Greener::ConfigStore do
   subject(:store) { described_class.new("path/to/config.yml", "path/to/default.yml") }
 
   describe "#initialize" do
@@ -19,10 +19,10 @@ RSpec.describe Garden::ConfigStore do
       }
     end
 
-    let(:expected_scarecrows) do
+    let(:expected_checkers) do
       {
-        Garden::Scarecrow::Style::FeatureName => { "Enabled" => true },
-        Garden::Scarecrow::Style::IndentationWidth => { "Enabled" => true, "Width" => 4 }
+        Greener::Checker::Style::FeatureName => { "Enabled" => true },
+        Greener::Checker::Style::IndentationWidth => { "Enabled" => true, "Width" => 4 }
       }
     end
 
@@ -37,11 +37,11 @@ RSpec.describe Garden::ConfigStore do
     end
 
     it "returns the instance" do
-      expect(subject.resolve).to be_a Garden::ConfigStore
+      expect(subject.resolve).to be_a Greener::ConfigStore
     end
 
-    it "returns scarecrows in the #scarecrows attribute" do
-      expect(subject.resolve.scarecrows).to eq(expected_scarecrows)
+    it "returns checkers in the #checkers attribute" do
+      expect(subject.resolve.checkers).to eq(expected_checkers)
     end
 
     it "returns globbed files in the #files attribute" do
@@ -52,7 +52,7 @@ end
 
 # Create real temp files, to avoid having to mock out implementation specifics like:
 # allow(File).to receive(:exist?).and_return(true)
-RSpec.describe Garden::ConfigStore, type: :aruba do
+RSpec.describe Greener::ConfigStore, type: :aruba do
   before(:each) do
     write_file("real/default.yml", "Style/FeatureName:\n  Enabled: false")
     write_file("rspec_aruba.feature", "Feature: Using the Aruba API in RSpec")
@@ -63,12 +63,12 @@ RSpec.describe Garden::ConfigStore, type: :aruba do
       before(:each) { write_file("real/happy.yml", "Style/FeatureName:\n  Enabled: true") }
       subject(:store) { described_class.new("tmp/aruba/real/happy.yml", "tmp/aruba/real/default.yml") }
 
-      let(:expected_scarecrows) do
-        { Garden::Scarecrow::Style::FeatureName => { "Enabled" => true } }
+      let(:expected_checkers) do
+        { Greener::Checker::Style::FeatureName => { "Enabled" => true } }
       end
 
-      it "returns the scarecrow specified in a real file in #scarecrows" do
-        expect(subject.resolve.scarecrows).to eq(expected_scarecrows)
+      it "returns the checker specified in a real file in #checkers" do
+        expect(subject.resolve.checkers).to eq(expected_checkers)
       end
 
       it "returns a list of real files in #files" do
@@ -90,16 +90,16 @@ RSpec.describe Garden::ConfigStore, type: :aruba do
       subject(:store) { described_class.new("tmp/aruba/real/invalid_keys.yml", "tmp/aruba/real/default.yml") }
 
       it "raises an error" do
-        expect { subject.resolve }.to raise_error(Garden::CustomError, /Unknown option/)
+        expect { subject.resolve }.to raise_error(Greener::CustomError, /Unknown option/)
       end
     end
 
-    context "nonexistent scarecrow in config file" do
-      before(:each) { write_file("real/invalid_scarecrow.yml", "Style/FakeScarecrow:\n  Enabled: true") }
-      subject(:store) { described_class.new("tmp/aruba/real/invalid_scarecrow.yml", "tmp/aruba/real/default.yml") }
+    context "nonexistent checker in config file" do
+      before(:each) { write_file("real/invalid_checker.yml", "Style/FakeChecker:\n  Enabled: true") }
+      subject(:store) { described_class.new("tmp/aruba/real/invalid_checker.yml", "tmp/aruba/real/default.yml") }
 
       it "raises an error" do
-        expect { subject.resolve }.to raise_error(Garden::CustomError, /Unknown scarecrow/)
+        expect { subject.resolve }.to raise_error(Greener::CustomError, /Unknown checker/)
       end
     end
   end

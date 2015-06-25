@@ -1,7 +1,7 @@
-RSpec.describe Garden::Scarecrow::Base, type: :aruba do
+RSpec.describe Greener::Checker::Base, type: :aruba do
   before(:each) do
     write_file("file.txt", "such information")
-    stub_const("Garden::Scarecrow::Base::MSG", "wow")
+    stub_const("Greener::Checker::Base::MSG", "wow")
   end
 
   subject(:basecrow) { described_class.new(double("parsed"), "tmp/aruba/file.txt", double("config")) }

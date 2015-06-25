@@ -1,11 +1,11 @@
-require "garden/cli"
+require "greener/cli"
 
 begin # require any dev dependencies here
   require "byebug"
 rescue LoadError # rubocop:disable Lint/HandleExceptions
 end
 
-module Garden
+module Greener
   # Aruba In Process + Thor integration
   # Based on https://github.com/erikhuda/thor/wiki/Integrating-with-Aruba-In-Process-Runs
   class Runner
@@ -26,11 +26,11 @@ module Garden
         $stdout = @stdout
 
         # Run our normal Thor app the way we know and love.
-        Garden::CLI.start(@argv)
+        Greener::CLI.start(@argv)
 
         # Thor::Base#start does not have a return value, assume success if no exception is raised.
         0
-      rescue Garden::CustomError => e
+      rescue Greener::CustomError => e
         @stderr.puts e.message
         1
       rescue StandardError => e

@@ -1,4 +1,4 @@
-# Used by dogfood test, i.e. run garden against the .feature files in this repo!
+# Used by dogfood test, i.e. run greener against the .feature files in this repo!
 FileList:
   Include:
     - "features/**/*.feature"

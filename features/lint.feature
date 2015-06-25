@@ -6,7 +6,7 @@ Feature: lint
       """
       Feature: Valid Title
       """
-    When I run `garden`
+    When I run `greener`
     Then the output should contain exactly "1 file(s) inspected, no offenses detected\n"
 
   Scenario: feature text does not match filename
@@ -14,7 +14,7 @@ Feature: lint
       """
       Feature: mismatched feature title LOL
       """
-    When I run `garden`
+    When I run `greener`
     Then the output should contain exactly "foo/mismatched_feature_title.feature:1\nFeature: mismatched feature title LOL\n^^^ feature title does not match file name\n\n1 file(s) inspected, 1 offense(s) detected\n"
 
   Scenario: inconsistent indentation
@@ -27,7 +27,7 @@ Feature: lint
          Scenario: poorly indented
           Then nothing
       """
-    When I run `garden`
+    When I run `greener`
     Then the output should contain exactly "foo/indentation.feature:5\n   Scenario: poorly indented\n   ^^^ inconsistent indentation detected\n\n1 file(s) inspected, 1 offense(s) detected\n"
 
   Scenario: multiple issues
@@ -40,5 +40,5 @@ Feature: lint
          Scenario: poorly indented
           Then nothing
       """
-    When I run `garden`
+    When I run `greener`
     Then the output should contain "1 file(s) inspected, 2 offense(s) detected\n"

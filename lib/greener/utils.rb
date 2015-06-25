@@ -1,11 +1,11 @@
-module Garden
+module Greener
   # Useful shared utils
   module Utils
-    def scarecrow_from_string(str)
+    def checker_from_string(str)
       namespaced = str.gsub("/", "::")
-      constantize "Garden::Scarecrow::#{namespaced}"
+      constantize "Greener::Checker::#{namespaced}"
     rescue NameError
-      raise CustomError, "Unknown scarecrow specified: #{str}" # TODO: print warning instead of failing
+      raise CustomError, "Unknown checker specified: #{str}" # TODO: print warning instead of failing
     end
 
     private

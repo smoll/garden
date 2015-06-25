@@ -1,7 +1,7 @@
-require "garden/scarecrow/base"
+require "greener/checker/base"
 
-module Garden
-  module Scarecrow
+module Greener
+  module Checker
     module Style
       # Ensure keywords are indented correctly
       # Ref: https://github.com/bbatsov/rubocop/commit/44c1cdd5d9bc1c3588ea7841fc6e9543126306e8

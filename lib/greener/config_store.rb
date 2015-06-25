@@ -1,25 +1,25 @@
 require "yaml"
 
-require "garden/utils"
-require "garden/custom_error"
+require "greener/utils"
+require "greener/custom_error"
 
-# Require all scarecrow files here
-require "garden/scarecrow/style/feature_name"
-require "garden/scarecrow/style/indentation_width"
+# Require all checker files here
+require "greener/checker/style/feature_name"
+require "greener/checker/style/indentation_width"
 
-module Garden
-  # Read configs from a user-specified garden.yml or fallback to defaults
+module Greener
+  # Read configs from a user-specified greener.yml or fallback to defaults
   class ConfigStore
     include Utils
 
-    attr_reader :scarecrows, :files
+    attr_reader :checkers, :files
 
     def initialize(path, default_path = nil)
       @path = path
       default_path ||= default_absolute_path
       @default_path = default_path
 
-      @scarecrows = {}
+      @checkers = {}
       @files = []
     end
 
@@ -48,7 +48,7 @@ module Garden
     private
 
     def validate
-      set_scarecrows
+      set_checkers
       set_files
 
       @all.each do |k, _v|
@@ -56,11 +56,11 @@ module Garden
       end
     end
 
-    def set_scarecrows
+    def set_checkers
       @all.each do |k, v|
         next unless %w( Style/ Lint/ ).any? { |prefix| k.start_with?(prefix) }
-        scarecrow_klass = scarecrow_from_string(k)
-        @scarecrows[scarecrow_klass] = v
+        checker_klass = checker_from_string(k)
+        @checkers[checker_klass] = v
         @all.delete(k)
       end
     end
