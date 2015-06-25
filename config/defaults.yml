@@ -1,3 +1,8 @@
+FileList:
+  # Array of globs of files to lint.
+  Include:
+    - "**/*.feature"
+
 Style/FeatureName:
   Enabled: true
 

@@ -1,6 +1,6 @@
 require "thor"
+
 require "garden/linter"
-require "garden/custom_error"
 
 module Garden
   # Main Thor application
@@ -10,8 +10,7 @@ module Garden
     desc "lint", "The default task to run when no command is given"
     method_options %w( config -c ) => :string
     def lint
-      files = Dir.glob("**/*.feature").select { |e| File.file? e }
-      linter = Linter.new(files, options[:config])
+      linter = Linter.new(options[:config])
       linter.lint
       linter.print_results
     end

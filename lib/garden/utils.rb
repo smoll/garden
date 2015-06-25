@@ -5,7 +5,7 @@ module Garden
       namespaced = str.gsub("/", "::")
       constantize "Garden::Scarecrow::#{namespaced}"
     rescue NameError
-      raise CustomError, "Unknown scarecrow specified: #{str}"
+      raise CustomError, "Unknown scarecrow specified: #{str}" # TODO: print warning instead of failing
     end
 
     private

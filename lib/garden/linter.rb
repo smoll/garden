@@ -1,18 +1,12 @@
 require "gherkin3/parser"
 require "gherkin3/token_scanner"
 
-require "garden/utils"
 require "garden/config_store"
-require "garden/scarecrow/style/feature_name"
-require "garden/scarecrow/style/indentation_width"
 
 module Garden
   # Parse then lint a collection of .feature files for violations
   class Linter
-    include Utils
-
-    def initialize(files, config_path)
-      @files = files
+    def initialize(config_path)
       @config = ConfigStore.new(config_path).resolve
       @results = []
     end
@@ -23,7 +17,7 @@ module Garden
     # single pass through the file, line-by-line, and flagging violations as
     # they are encountered.
     def lint
-      @files.each { |f| parse_single_file(f) }
+      @config.files.each { |f| parse_single_file(f) }
     end
 
     def print_results
@@ -36,7 +30,7 @@ module Garden
 
       conclusion = @results.empty? ? "no offenses detected" : "#{@results.count} offense(s) detected"
 
-      puts "#{@files.count} file(s) inspected, #{conclusion}"
+      puts "#{@config.files.count} file(s) inspected, #{conclusion}"
     end
 
     private
@@ -46,8 +40,8 @@ module Garden
       scanner = Gherkin3::TokenScanner.new(fname)
       parsed = parser.parse(scanner)
 
-      @config.each do |sc, sc_hash|
-        scarecrow = scarecrow_from_string(sc).new(parsed, fname, sc_hash)
+      @config.scarecrows.each do |sc_klass, sc_opts|
+        scarecrow = sc_klass.new(parsed, fname, sc_opts)
         scarecrow.run
         @results += scarecrow.violations
       end
