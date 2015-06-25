@@ -6,4 +6,5 @@ dependencies:
 
 test:
   override:
-    - bundle exec rake test
+    - bundle exec rake
+    - RUBYLIB=lib bundle exec bin/garden -c config/dogfood.yml

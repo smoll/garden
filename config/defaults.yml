@@ -1,7 +1,8 @@
-FileList:
-  # Array of globs of files to lint.
-  Include:
-    - "**/*.feature"
+# FileList:
+#   Include:
+#     - "**/*.feature"
+#   Exclude:
+#     - "**/*_exclusionary_special.feature"
 
 Style/FeatureName:
   Enabled: true

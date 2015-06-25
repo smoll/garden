@@ -56,15 +56,22 @@ module Garden
     end
 
     def set_files
+      includes = []
+      excludes = []
+
       @all.each do |k, v|
         next unless k == "FileList"
-        includes = []
-        excludes = []
-        v["Include"].each { |glob| includes += Dir.glob(glob).select { |e| File.file? e } }
-        v["Exclude"].each { |glob| excludes += Dir.glob(glob).select { |e| File.file? e } } if v["Exclude"]
+        v["Include"].each { |glob| includes += files_matching_glob(glob) }
+        v["Exclude"].each { |glob| excludes += files_matching_glob(glob) } if v["Exclude"]
         @files = includes - excludes
         @all.delete(k)
       end
+      return unless @files.empty?
+      @files = files_matching_glob("**/*.feature") # default to all .feature files recursively
+    end
+
+    def files_matching_glob(glob)
+      Dir.glob(glob).select { |e| File.file? e }
     end
 
     def default_path

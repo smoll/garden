@@ -33,8 +33,9 @@ bundle exec rake test
 
 To test the `garden` binary locally, `cd` to the repo root and run
 ```
-bundle exec ruby -Ilib ./bin/garden help
+RUBYLIB=lib bundle exec ruby bin/garden
 ```
+Based on [this answer](http://stackoverflow.com/a/23367196/3456726).
 
 ## References
 
