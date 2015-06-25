@@ -90,7 +90,7 @@ RSpec.describe Garden::ConfigStore, type: :aruba do
       subject(:store) { described_class.new("tmp/aruba/real/invalid_keys.yml", "tmp/aruba/real/default.yml") }
 
       it "raises an error" do
-        expect { subject.resolve }.to raise_error(Garden::CustomError)
+        expect { subject.resolve }.to raise_error(Garden::CustomError, /Unknown option/)
       end
     end
 
@@ -99,7 +99,7 @@ RSpec.describe Garden::ConfigStore, type: :aruba do
       subject(:store) { described_class.new("tmp/aruba/real/invalid_scarecrow.yml", "tmp/aruba/real/default.yml") }
 
       it "raises an error" do
-        expect { subject.resolve }.to raise_error(Garden::CustomError)
+        expect { subject.resolve }.to raise_error(Garden::CustomError, /Unknown scarecrow/)
       end
     end
   end

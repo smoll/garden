@@ -3,7 +3,8 @@ require "simplecov" # see .simplecov
 require "garden" # See http://stackoverflow.com/a/27311957/3456726
 
 # Require aruba/rspec this way, https://github.com/cucumber/aruba#rspec
-Dir.glob(::File.expand_path("../support/*.rb", __FILE__)).each { |f| require_relative f }
+# Also http://makandracards.com/makandra/1115-where-to-put-custom-rspec-matchers
+Dir[File.expand_path(File.join(File.dirname(__FILE__), "support", "**", "*.rb"))].each { |f| require f }
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
