@@ -1,5 +1,6 @@
 # Based on https://github.com/cucumber/aruba/blob/master/Rakefile
 
+require "bundler/gem_tasks"
 require "rubocop/rake_task"
 require "rspec/core/rake_task"
 require "cucumber/rake/task"

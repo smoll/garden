@@ -4,8 +4,8 @@ module Greener
     class Base
       attr_reader :violations
 
-      def initialize(parsed, path, config)
-        @parsed = parsed
+      def initialize(ast, path, config)
+        @ast = ast
         @path = path
         @config = config
 
@@ -39,7 +39,7 @@ module Greener
 
       # For readability in checker subclasses
       def feature
-        @parsed
+        @ast
       end
 
       # Given a num, returns the full text corresponding to that line number in the file

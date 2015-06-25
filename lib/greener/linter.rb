@@ -1,5 +1,7 @@
 require "gherkin3/parser"
 require "gherkin3/token_scanner"
+require "gherkin3/ast_builder"
+require "gherkin3/token_matcher"
 
 require "greener/config_store"
 
@@ -38,10 +40,11 @@ module Greener
     def parse_single_file(fname)
       parser = Gherkin3::Parser.new
       scanner = Gherkin3::TokenScanner.new(fname)
-      parsed = parser.parse(scanner)
+      builder = Gherkin3::AstBuilder.new
+      ast = parser.parse(scanner, builder, Gherkin3::TokenMatcher.new)
 
       @config.checkers.each do |sc_klass, sc_opts|
-        checker = sc_klass.new(parsed, fname, sc_opts)
+        checker = sc_klass.new(ast, fname, sc_opts)
         checker.run
         @results += checker.violations
       end
