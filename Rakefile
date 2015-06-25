@@ -15,6 +15,7 @@ Cucumber::Rake::Task.new do |t|
   t.cucumber_opts << "--format pretty"
 end
 
+# Can't run this as part of the :test task because it overwrites code coverage stats
 Cucumber::Rake::Task.new(:cucumber_wip) do |t|
   t.cucumber_opts = "-p wip"
 end

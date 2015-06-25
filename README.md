@@ -58,6 +58,7 @@ Based on [this answer](http://stackoverflow.com/a/23367196/3456726).
 #### Testing related
 0. http://stackoverflow.com/questions/12673485/how-to-test-stdin-for-a-cli-using-rspec
 0. https://github.com/livinginthepast/aruba-rspec
+0. https://github.com/rapid7/aruba/pull/1/files (Demonstrating simplecov integration)
 
 #### Lint related
 
