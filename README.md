@@ -29,6 +29,16 @@ Run tests
 bundle exec rake test
 ```
 
+View code coverage
+```
+rake && open coverage/index.html
+```
+
+View code coverage from RSpec unit tests only
+```
+rm -rf coverage && rspec && open coverage/index.html
+```
+
 ## Testing
 
 To test the `garden` binary locally, `cd` to the repo root and run
@@ -44,6 +54,10 @@ Based on [this answer](http://stackoverflow.com/a/23367196/3456726).
 0. http://guides.rubygems.org/make-your-own-gem/
 0. http://whatisthor.com/
 0. https://github.com/erikhuda/thor/wiki/Integrating-with-Aruba-In-Process-Runs
+
+#### Testing related
+0. http://stackoverflow.com/questions/12673485/how-to-test-stdin-for-a-cli-using-rspec
+0. https://github.com/livinginthepast/aruba-rspec
 
 #### Lint related
 

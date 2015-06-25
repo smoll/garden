@@ -14,8 +14,9 @@ module Garden
 
     attr_reader :scarecrows, :files
 
-    def initialize(path)
+    def initialize(path, default_path = nil)
       @path = path
+      default_path ||= default_absolute_path
       @default_path = default_path
 
       @scarecrows = {}
@@ -25,14 +26,23 @@ module Garden
     def resolve
       if @path
         fail CustomError, "No config file found at specified path: #{@path}" unless File.exist? @path
-        config = YAML.load_file @path
+        config = load_yml_file @path
       end
-      defaults = YAML.load_file @default_path
+      defaults = load_yml_file @default_path
 
       @all = @path ? defaults.merge(config) : defaults
 
       validate
       self
+    end
+
+    # Stub-able methods
+    def load_yml_file(path)
+      YAML.load_file(path)
+    end
+
+    def files_matching_glob(glob)
+      Dir.glob(glob).select { |e| File.file? e }
     end
 
     private
@@ -56,25 +66,28 @@ module Garden
     end
 
     def set_files
-      includes = []
-      excludes = []
+      if @all["FileList"].nil?
+        # Default to all .feature files recursively
+        return @files = files_matching_glob("**/*.feature")
+      end
 
       @all.each do |k, v|
         next unless k == "FileList"
-        v["Include"].each { |glob| includes += files_matching_glob(glob) }
-        v["Exclude"].each { |glob| excludes += files_matching_glob(glob) } if v["Exclude"]
-        @files = includes - excludes
+        discover_files(v)
         @all.delete(k)
       end
-      return unless @files.empty?
-      @files = files_matching_glob("**/*.feature") # default to all .feature files recursively
     end
 
-    def files_matching_glob(glob)
-      Dir.glob(glob).select { |e| File.file? e }
+    def discover_files(hash)
+      includes = []
+      excludes = []
+
+      hash["Include"].each { |glob| includes += files_matching_glob(glob) } if hash["Include"]
+      hash["Exclude"].each { |glob| excludes += files_matching_glob(glob) } if hash["Exclude"]
+      @files = includes - excludes
     end
 
-    def default_path
+    def default_absolute_path
       File.expand_path("../../../config/defaults.yml", __FILE__)
     end
   end
