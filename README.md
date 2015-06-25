@@ -9,9 +9,6 @@ Simple Gherkin .feature file linter
 
 ## TODOs
 
-0. Improve SoC (`Linter` class does not need to know about #print_results, #parse_single_file should be broken up)
-0. Standardize `Scarecrow` options
-0. Improve `Scarecrow::Base` constructor method signature
 0. Move "results printing" logic to configurable formatters
 0. Implement some kind of hooks system for use by formatters, similar to [this](https://github.com/bbatsov/rubocop/blob/master/lib/rubocop/formatter/base_formatter.rb#L30-L41)
 0. Create a RakeTask class for use in CI systems
