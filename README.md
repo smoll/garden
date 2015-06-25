@@ -1,7 +1,7 @@
 garden
 ===
 
-[![Circle CI](https://circleci.com/gh/smoll/garden.svg?style=svg)](https://circleci.com/gh/smoll/garden)
+[![Circle CI](https://circleci.com/gh/smoll/garden.svg?style=svg)](https://circleci.com/gh/smoll/garden) [![Code Climate](https://codeclimate.com/github/smoll/garden/badges/gpa.svg)](https://codeclimate.com/github/smoll/garden) [![Coverage Status](https://coveralls.io/repos/smoll/garden/badge.svg?branch=master)](https://coveralls.io/r/smoll/garden?branch=master)
 
 Simple Gherkin .feature file linter
 
