@@ -20,17 +20,7 @@ Cucumber::Rake::Task.new(:cucumber_wip) do |t|
   t.cucumber_opts = "-p wip"
 end
 
-Coveralls::RakeTask.new # task "coveralls:push"
-
-namespace :code_climate do
-  task :push do
-    require "simplecov"
-    require "codeclimate-test-reporter"
-    CodeClimate::TestReporter::Formatter.new.format(SimpleCov.result)
-  end
-end
-
 desc "Run tests, both RSpec and Cucumber"
-task test: [:rubocop, :spec, :cucumber, "code_climate:push", "coveralls:push"]
+task test: [:rubocop, :spec, :cucumber]
 
 task default: :test

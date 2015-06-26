@@ -1,20 +1,21 @@
 require "codeclimate-test-reporter"
+require "coveralls"
 
-# Sending to Coveralls requires no set up, is done by rake task
-# Sending to Code Climate is set up here, but pushed in a rake task
-# ref: https://github.com/codeclimate/ruby-test-reporter#using-with-parallel_tests
-# ref: https://coveralls.zendesk.com/hc/en-us/articles/201769485-Ruby-Rails
-SimpleCov.add_filter "vendor"
-SimpleCov.formatters = [SimpleCov::Formatter::HTMLFormatter]
-SimpleCov.start CodeClimate::TestReporter.configuration.profile
+# https://coderwall.com/p/vwhuqq/using-code-climate-s-new-test-reporter-together-with-coveralls-and-simplecov-s-html-formatter
+SimpleCov.formatters = [
+  Coveralls::SimpleCov::Formatter,
+  CodeClimate::TestReporter::Formatter,
+  SimpleCov::Formatter::HTMLFormatter
+]
 
-SimpleCov.configure do
+SimpleCov.start do
   # ignore this file
   add_filter ".simplecov"
+  add_filter "vendor"
+  add_filter "spec/support/matchers"
 
   # Changed Files in Git Group
   # ref: http://fredwu.me/post/35625566267/simplecov-test-coverage-for-changed-files-only
-  # TODO: fix this
   untracked = `git ls-files --exclude-standard --others`
   unstaged = `git diff --name-only`
   staged = `git diff --name-only --cached`
@@ -28,4 +29,8 @@ SimpleCov.configure do
   end
 
   add_group "Checkers", "lib/greener/checker"
+
+  # Specs are reported on to ensure that all examples are being run and all
+  # lets, befores, afters, etc are being used.
+  add_group "Specs", "spec"
 end
