@@ -6,6 +6,8 @@
 
 Style/FeatureName:
   Enabled: true
+  # Allow non-alphanumeric characters, e.g. filename test_thing.feature with text "Feature: (test) thing"
+  AllowPunctuation: true
 
 Style/IndentationWidth:
   Enabled: true

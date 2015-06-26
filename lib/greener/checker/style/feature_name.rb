@@ -15,9 +15,17 @@ module Greener
           return unless @config["Enabled"]
 
           filename_without_extension = File.basename(@path, ".*")
-          return if feature[:name].downcase.gsub(" ", "_") == filename_without_extension
+          expected = feature[:name]
+          expected = expected.gsub(/[^0-9a-z ]/i, "") if allow_punctuation?
+          expected = expected.downcase.gsub(" ", "_")
+
+          return if filename_without_extension == expected
 
           log_violation(feature[:location][:line], feature[:location][:column])
+        end
+
+        def allow_punctuation?
+          @config["AllowPunctuation"]
         end
       end
     end
