@@ -30,9 +30,7 @@ module Greener
         puts ""
       end
 
-      conclusion = @results.empty? ? "no offenses detected" : "#{@results.count} offense(s) detected"
-
-      puts "#{@config.files.count} file(s) inspected, #{conclusion}"
+      print_final_line
     end
 
     private
@@ -48,6 +46,14 @@ module Greener
         checker.run
         @results += checker.violations
       end
+    end
+
+    def print_final_line
+      conclusion = @results.empty? ? "no offenses detected" : "#{@results.count} offense(s) detected"
+
+      res = "#{@config.files.count} file(s) inspected, #{conclusion}"
+      return puts(res) if @results.empty?
+      fail Greener::Error::LintFailed, res
     end
   end
 end

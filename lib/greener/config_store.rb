@@ -84,7 +84,7 @@ module Greener
 
       hash["Include"].each { |glob| includes += files_matching_glob(glob) } if hash["Include"]
       hash["Exclude"].each { |glob| excludes += files_matching_glob(glob) } if hash["Exclude"]
-      @files = includes - excludes
+      @files = (includes - excludes).uniq
     end
 
     def default_absolute_path
