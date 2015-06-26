@@ -22,7 +22,7 @@ module Greener
       end
 
       # Adds violation data to the @violations array
-      def log_violation(line, col, raw_txt = nil, msg = nil)
+      def log_violation(line, col, msg = nil, raw_txt = nil)
         # Set defaults for last 2 params if not overridden
         raw_txt ||= raw_line(line)
         msg ||= message
