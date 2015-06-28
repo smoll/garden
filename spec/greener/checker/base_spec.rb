@@ -4,7 +4,7 @@ RSpec.describe Greener::Checker::Base, type: :aruba do
     stub_const("Greener::Checker::Base::MSG", "wow")
   end
 
-  subject(:basecrow) { described_class.new(double("parsed"), "tmp/aruba/file.txt", double("config")) }
+  subject(:checker) { described_class.new(double("parsed"), "tmp/aruba/file.txt", double("config")) }
 
   describe "#log_violation" do
     it "logs a violation" do
