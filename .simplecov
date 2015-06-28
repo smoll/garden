@@ -2,13 +2,11 @@ require "codeclimate-test-reporter"
 require "coveralls"
 
 # https://coderwall.com/p/vwhuqq/using-code-climate-s-new-test-reporter-together-with-coveralls-and-simplecov-s-html-formatter
-SimpleCov.formatters = [
-  Coveralls::SimpleCov::Formatter,
-  CodeClimate::TestReporter::Formatter,
-  SimpleCov::Formatter::HTMLFormatter
-]
+SimpleCov.formatters = [SimpleCov::Formatter::HTMLFormatter]
 
 SimpleCov.start do
+  CodeClimate::TestReporter.configuration.profile
+
   # ignore this file
   add_filter ".simplecov"
   add_filter "vendor"

@@ -6,6 +6,8 @@ require "greener" # See http://stackoverflow.com/a/27311957/3456726
 # Also http://makandracards.com/makandra/1115-where-to-put-custom-rspec-matchers
 Dir[File.expand_path(File.join(File.dirname(__FILE__), "support", "**", "*.rb"))].each { |f| require f }
 
+SimpleCov.command_name "spec"
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
