@@ -14,6 +14,17 @@ A Gherkin .feature file linter
 0. Create a RakeTask class for use in CI systems
 0. Add coloring for formatters
 
+## Usage
+
+Install the gem
+```
+gem install greener
+```
+
+The `greener` binary takes a single argument, `-c path/to/config/greener.yml`. See the [defaults](./config/defaults.yml) for an example of this file.
+
+View the [changelog](./CHANGELOG.md) for recent changes.
+
 ## Contributing
 
 Install dev dependencies locally
@@ -29,11 +40,6 @@ bundle exec rake test
 View code coverage
 ```
 rake && open coverage/index.html
-```
-
-View code coverage from RSpec unit tests only
-```
-rm -rf coverage && rspec && open coverage/index.html
 ```
 
 ## Testing

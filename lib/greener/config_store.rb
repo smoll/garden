@@ -66,13 +66,13 @@ module Greener
     end
 
     def set_files
-      if @all["FileList"].nil?
+      if @all["AllCheckers"].nil?
         # Default to all .feature files recursively
         return @files = files_matching_glob("**/*.feature")
       end
 
       @all.each do |k, v|
-        next unless k == "FileList"
+        next unless k == "AllCheckers"
         discover_files(v)
         @all.delete(k)
       end

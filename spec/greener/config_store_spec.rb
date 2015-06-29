@@ -15,7 +15,7 @@ RSpec.describe Greener::ConfigStore do
     let(:overriding_config) do
       {
         "Style/IndentationWidth" => { "Enabled" => true, "Width" => 4 },
-        "FileList" => { "Include" => ["fake/glob/*.feature"] }
+        "AllCheckers" => { "Include" => ["fake/glob/*.feature"] }
       }
     end
 
@@ -77,7 +77,7 @@ RSpec.describe Greener::ConfigStore, type: :aruba do
     end
 
     context "exclude files" do
-      before(:each) { write_file("real/ignore_all.yml", "FileList:\n  Exclude:\n    - '**/*.feature'") }
+      before(:each) { write_file("real/ignore_all.yml", "AllCheckers:\n  Exclude:\n    - '**/*.feature'") }
       subject(:store) { described_class.new("tmp/aruba/real/ignore_all.yml", "tmp/aruba/real/default.yml") }
 
       it "returns no files in #files" do
