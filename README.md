@@ -1,7 +1,7 @@
 greener
 ===
 
-[![Circle CI](https://circleci.com/gh/smoll/greener.svg?style=svg)](https://circleci.com/gh/smoll/greener) [![Code Climate](https://codeclimate.com/github/smoll/greener/badges/gpa.svg)](https://codeclimate.com/github/smoll/greener) [![Coverage Status](https://coveralls.io/repos/smoll/greener/badge.svg?branch=master)](https://coveralls.io/r/smoll/greener?branch=master) [![Gem Version](https://badge.fury.io/rb/greener.svg)](http://badge.fury.io/rb/greener)
+[![Circle CI](https://img.shields.io/circleci/project/smoll/greener/master.svg)](https://circleci.com/gh/smoll/greener) [![Code Climate](https://codeclimate.com/github/smoll/greener/badges/gpa.svg)](https://codeclimate.com/github/smoll/greener) [![Coverage Status](https://img.shields.io/coveralls/smoll/greener/master.svg)](https://coveralls.io/r/smoll/greener?branch=master) [![Gem Version](https://badge.fury.io/rb/greener.svg)](http://badge.fury.io/rb/greener)
 
 A Gherkin .feature file linter
 
