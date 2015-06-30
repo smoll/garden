@@ -12,7 +12,6 @@ module Greener
     def lint
       linter = Linter.new(options[:config])
       linter.lint
-      linter.print_results
     end
 
     default_task :lint

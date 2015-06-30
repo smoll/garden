@@ -11,9 +11,9 @@ RSpec.describe Greener::Runner do
       end
     end
 
-    context "Greener::CustomError raised by application" do
+    context "Greener::Error::Standard raised by application" do
       it "exits with 1" do
-        allow(Greener::CLI).to receive(:start).and_raise(Greener::CustomError)
+        allow(Greener::CLI).to receive(:start).and_raise(Greener::Error::Standard)
         expect { runner.execute! }.to terminate.with_code(1)
       end
     end

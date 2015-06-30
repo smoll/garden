@@ -30,7 +30,7 @@ module Greener
 
         # Thor::Base#start does not have a return value, assume success if no exception is raised.
         0
-      rescue Greener::CustomError => e
+      rescue Greener::Error::Standard => e
         @stderr.puts e.message
         1
       rescue StandardError => e

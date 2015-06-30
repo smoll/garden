@@ -1,8 +1,12 @@
-# AllCheckers:
-#   Include:
-#     - "**/*.feature"
-#   Exclude:
-#     - "**/*_exclusionary_special.feature"
+AllCheckers:
+  Formatters:
+    # Summary does not need to be added here explicitly
+    - Progress
+    - SimpleText
+  Include:
+    - "**/*.feature"
+  # Exclude:
+  #   - "some/excluded/path/*.feature"
 
 Style/FeatureName:
   Enabled: true

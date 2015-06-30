@@ -8,6 +8,8 @@ Feature: (checker) feature name
     When I run `greener`
     Then the output should contain:
       """
+      F
+
       foo/mismatched_feature_title.feature:1
       Feature: mismatched feature title LOL
       ^^^ feature title does not match file name
@@ -21,7 +23,12 @@ Feature: (checker) feature name
       Feature: Valid Title
       """
     When I run `greener`
-    Then the output should contain exactly "1 file(s) inspected, no offenses detected\n"
+    Then the output should contain:
+    """
+    .
+
+    1 file(s) inspected, no offenses detected
+    """
 
   Scenario: punctuation allowed
     Given a file named "foo/some_punctuation.feature" with:
@@ -35,7 +42,12 @@ Feature: (checker) feature name
         AllowPunctuation: true
       """
     When I run `greener --config config/punctuation_allowed.yml`
-    Then the output should contain exactly "1 file(s) inspected, no offenses detected\n"
+    Then the output should contain:
+    """
+    .
+
+    1 file(s) inspected, no offenses detected
+    """
 
   Scenario: title case enforced
     Given a file named "foo/this_isnt_title_case_yo.feature" with:
@@ -52,6 +64,8 @@ Feature: (checker) feature name
     When I run `greener --config config/enforce_title_case.yml`
     Then the output should contain:
       """
+      F
+
       foo/this_isnt_title_case_yo.feature:1
       Feature: this isn't Title Case, yo!
       ^^^ feature title is not title case. expected: This Isn't Title Case, Yo!

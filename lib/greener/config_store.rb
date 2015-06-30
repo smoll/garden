@@ -1,18 +1,23 @@
 require "yaml"
 
 require "greener/utils"
-require "greener/custom_error"
+require "greener/error"
 
 # Require all checker files here
 require "greener/checker/style/feature_name"
 require "greener/checker/style/indentation_width"
+
+# And formatters
+require "greener/formatter/progress"
+require "greener/formatter/simple_text"
+require "greener/formatter/summary"
 
 module Greener
   # Read configs from a user-specified greener.yml or fallback to defaults
   class ConfigStore
     include Utils
 
-    attr_reader :checkers, :files
+    attr_reader :checkers, :files, :formatters
 
     def initialize(path, default_path = nil)
       @path = path
@@ -21,16 +26,18 @@ module Greener
 
       @checkers = {}
       @files = []
+      @formatters = []
     end
 
     def resolve
       if @path
-        fail CustomError, "No config file found at specified path: #{@path}" unless File.exist? @path
+        fail Error::Standard, "No config file found at specified path: #{@path}" unless File.exist? @path
         config = load_yml_file @path
       end
-      defaults = load_yml_file @default_path
 
-      @all = @path ? defaults.merge(config) : defaults
+      config ||= {}
+      defaults = load_yml_file @default_path
+      @all = merge_hashes(defaults, config)
 
       validate
       self
@@ -47,13 +54,45 @@ module Greener
 
     private
 
+    # Deep merge, with a few post-merge checks
+    def merge_hashes(default, opt)
+      result = deep_merge(default, opt)
+      # Change nils to empty hashes/arrays so this class isn't littered with #nil? checks
+      result["AllCheckers"]["Exclude"] = [] if result["AllCheckers"]["Exclude"].nil?
+
+      result
+    end
+
+    def deep_merge(first, second)
+      merger = proc { |_key, v1, v2| v1.is_a?(Hash) && v2.is_a?(Hash) ? v1.merge(v2, &merger) : v2 }
+      first.merge(second, &merger)
+    end
+
     def validate
+      set_formatters
       set_checkers
       set_files
 
+      @all.delete("AllCheckers") if @all["AllCheckers"] && @all["AllCheckers"].empty?
+
       @all.each do |k, _v|
-        fail CustomError, "Unknown option in config file: #{k}" # TODO: print warning instead of fail
+        fail Error::Standard, "Unknown option in config file: #{k}" # TODO: print warning instead of fail
       end
+    end
+
+    def set_formatters
+      formatters = @all["AllCheckers"]["Formatters"].uniq.compact
+      # Ensure "Summary" formatter is in last position
+      if formatters.include?("Summary")
+        formatters << formatters.delete("Summary")
+      else
+        formatters << "Summary"
+      end
+      formatters.each do |f_string|
+        @formatters << formatter_from_string(f_string)
+      end
+
+      @all["AllCheckers"].delete "Formatters"
     end
 
     def set_checkers
@@ -66,25 +105,16 @@ module Greener
     end
 
     def set_files
-      if @all["AllCheckers"].nil?
-        # Default to all .feature files recursively
-        return @files = files_matching_glob("**/*.feature")
-      end
-
-      @all.each do |k, v|
-        next unless k == "AllCheckers"
-        discover_files(v)
-        @all.delete(k)
-      end
-    end
-
-    def discover_files(hash)
       includes = []
       excludes = []
 
-      hash["Include"].each { |glob| includes += files_matching_glob(glob) } if hash["Include"]
-      hash["Exclude"].each { |glob| excludes += files_matching_glob(glob) } if hash["Exclude"]
-      @files = (includes - excludes).uniq
+      @all["AllCheckers"]["Include"].each { |glob| includes += files_matching_glob(glob) }
+      @all["AllCheckers"].delete "Include"
+
+      @all["AllCheckers"]["Exclude"].each { |glob| excludes += files_matching_glob(glob) }
+      @all["AllCheckers"].delete "Exclude"
+
+      @files = includes.uniq - excludes.uniq
     end
 
     def default_absolute_path

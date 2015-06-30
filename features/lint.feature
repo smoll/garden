@@ -13,6 +13,8 @@ Feature: lint
     When I run `greener`
     Then the output should contain:
       """
+      F
+
       foo/multiple_issues.feature:1
        Feature: multiple issues
        ^^^ inconsistent indentation detected

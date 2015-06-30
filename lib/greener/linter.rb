@@ -4,6 +4,7 @@ require "gherkin3/ast_builder"
 require "gherkin3/token_matcher"
 
 require "greener/config_store"
+require "greener/formatter_set"
 
 module Greener
   # Parse then lint a collection of .feature files for violations
@@ -11,49 +12,45 @@ module Greener
     def initialize(config_path)
       @config = ConfigStore.new(config_path).resolve
       @results = []
+      @formatter_set = FormatterSet.new @config.formatters
     end
 
-    # Here we iterate through a list of files, then iterate through the list of
-    # desired checkers, passing each one the filename & parsed AST.
-    # This is fine for now, but to speed this up we could refactor this to do a
-    # single pass through the file, line-by-line, and flagging violations as
-    # they are encountered.
     def lint
-      @config.files.each { |f| parse_single_file(f) }
-    end
+      @formatter_set.initialized(@config.files)
+      @formatter_set.started
 
-    def print_results
-      @results.each do |violation|
-        puts "#{violation[:file]}:#{violation[:line]}"
-        puts "#{violation[:text_of_line]}"
-        puts "#{' ' * (violation[:column] - 1)}^^^ #{violation[:message]}"
-        puts ""
+      # Here we iterate through a list of files, then iterate through the list of
+      # desired checkers, passing each one the filename & parsed AST.
+      # This is fine for now, but to speed this up we could refactor this to do a
+      # single pass through the file, line-by-line, and flagging violations as
+      # they are encountered.
+      @config.files.each do |f|
+        process_file(f) # TODO: move this to its own class
       end
 
-      print_final_line
+      @formatter_set.finished @results
     end
 
     private
 
-    def parse_single_file(fname)
+    def process_file(fname)
+      @formatter_set.file_started
+
       parser = Gherkin3::Parser.new
       scanner = Gherkin3::TokenScanner.new(fname)
       builder = Gherkin3::AstBuilder.new
       ast = parser.parse(scanner, builder, Gherkin3::TokenMatcher.new)
 
+      violations_in_file = []
+
       @config.checkers.each do |sc_klass, sc_opts|
         checker = sc_klass.new(ast, fname, sc_opts)
         checker.run
+        violations_in_file += checker.violations
         @results += checker.violations
       end
-    end
 
-    def print_final_line
-      conclusion = @results.empty? ? "no offenses detected" : "#{@results.count} offense(s) detected"
-
-      res = "#{@config.files.count} file(s) inspected, #{conclusion}"
-      return puts(res) if @results.empty?
-      fail Greener::Error::LintFailed, res
+      @formatter_set.file_finished(violations_in_file)
     end
   end
 end

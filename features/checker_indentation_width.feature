@@ -13,6 +13,8 @@ Feature: (checker) indentation width
     When I run `greener`
     Then the output should contain:
       """
+      F
+
       foo/indentation.feature:5
          Scenario: poorly indented
          ^^^ inconsistent indentation detected

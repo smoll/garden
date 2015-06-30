@@ -11,7 +11,12 @@ Feature: configuration
         Enabled: false
       """
     When I run `greener --config config/disabled.yml`
-    Then the output should contain exactly "1 file(s) inspected, no offenses detected\n"
+    Then the output should contain:
+    """
+    .
+
+    1 file(s) inspected, no offenses detected
+    """
 
   Scenario: invalid checker specified in config
     Given a file named "foo/something.feature" with:
@@ -46,4 +51,9 @@ Feature: configuration
         Width: 4
       """
     When I run `greener --config config/complex.yml`
-    Then the output should contain exactly "1 file(s) inspected, no offenses detected\n"
+    Then the output should contain:
+    """
+    .
+
+    1 file(s) inspected, no offenses detected
+    """
