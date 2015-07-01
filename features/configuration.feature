@@ -29,7 +29,13 @@ Feature: configuration
         Enabled: false
       """
     When I run `greener --config config/invalid.yml`
-    Then the output should contain exactly "Unknown checker specified: Style/NotEvenReal\n"
+    Then the output should contain:
+    """
+    Unknown checker specified: Style/NotEvenReal
+    .
+
+    1 file(s) inspected, no offenses detected
+    """
 
   Scenario: complex configuration
     Given a file named "foo/indentation_too.feature" with:

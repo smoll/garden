@@ -57,8 +57,8 @@ RSpec.describe Greener::ConfigStore, type: :aruba do
         YML
       end
 
-      it "raises an error" do
-        expect { subject.resolve }.to raise_error(Greener::Error::Standard, /Unknown option/)
+      it "outputs a warning" do
+        expect { subject.resolve }.to output(/Unknown option/).to_stdout
       end
     end
 
@@ -70,8 +70,8 @@ RSpec.describe Greener::ConfigStore, type: :aruba do
         YML
       end
 
-      it "raises an error" do
-        expect { subject.resolve }.to raise_error(Greener::Error::Standard, /Unknown checker/)
+      it "outputs a warning" do
+        expect { subject.resolve }.to output(/Unknown checker/).to_stdout
       end
     end
   end

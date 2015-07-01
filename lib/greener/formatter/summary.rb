@@ -5,7 +5,11 @@ module Greener
     # Prints summary line, e.g. "10 file(s) inspected, no offenses detected"
     class Summary < BaseFormatter
       def finished(violations)
-        conclusion = violations.empty? ? "no offenses detected" : "#{violations.count} offense(s) detected"
+        conclusion = if violations.empty?
+                       "no offenses detected".color(:green)
+                     else
+                       "#{violations.count} offense(s) detected".color(:red)
+                     end
 
         res = "#{@files.count} file(s) inspected, #{conclusion}"
         return puts(res) if violations.empty?
