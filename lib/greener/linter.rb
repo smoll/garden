@@ -1,10 +1,6 @@
-require "gherkin3/parser"
-require "gherkin3/token_scanner"
-require "gherkin3/ast_builder"
-require "gherkin3/token_matcher"
-
 require "greener/config_store"
 require "greener/formatter_set"
+require "greener/parser"
 
 module Greener
   # Parse then lint a collection of .feature files for violations
@@ -36,10 +32,7 @@ module Greener
     def process_file(fname)
       @formatter_set.file_started
 
-      parser = Gherkin3::Parser.new
-      scanner = Gherkin3::TokenScanner.new(fname)
-      builder = Gherkin3::AstBuilder.new
-      ast = parser.parse(scanner, builder, Gherkin3::TokenMatcher.new)
+      ast = Parser.new(fname).ast
 
       violations_in_file = []
 
