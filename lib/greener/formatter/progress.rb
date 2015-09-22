@@ -6,9 +6,9 @@ module Greener
     class Progress < BaseFormatter
       def file_finished(violations)
         if violations.empty?
-          print "."
+          print ".".color(:green)
         else
-          print "F"
+          print "F".color(:red)
         end
       end
 

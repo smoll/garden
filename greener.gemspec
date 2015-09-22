@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "gherkin3", "~> 3.1.1"
+  spec.add_dependency "rainbow", "~> 2.0.0"
   spec.add_dependency "thor", "~> 0.19.1"
   spec.add_dependency "titleize", "~> 1.3.0"
 

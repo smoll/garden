@@ -1,4 +1,5 @@
 require "greener/cli"
+require "rainbow/ext/string" # monkey patches String#color(:somecolor)
 
 begin # require any dev dependencies here
   require "byebug"

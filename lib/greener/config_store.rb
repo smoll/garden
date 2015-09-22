@@ -76,7 +76,7 @@ module Greener
       @all.delete("AllCheckers") if @all["AllCheckers"] && @all["AllCheckers"].empty?
 
       @all.each do |k, _v|
-        fail Error::Standard, "Unknown option in config file: #{k}" # TODO: print warning instead of fail
+        $stdout.puts "Unknown option in config file: #{k}".color(:red)
       end
     end
 
@@ -89,7 +89,9 @@ module Greener
         formatters << "Summary"
       end
       formatters.each do |f_string|
-        @formatters << formatter_from_string(f_string)
+        formatter_class = formatter_from_string(f_string)
+        next unless formatter_class # Don't add to @formatters if nil
+        @formatters << formatter_class
       end
 
       @all["AllCheckers"].delete "Formatters"
@@ -98,8 +100,8 @@ module Greener
     def set_checkers
       @all.each do |k, v|
         next unless %w( Style/ Lint/ ).any? { |prefix| k.start_with?(prefix) }
-        checker_klass = checker_from_string(k)
-        @checkers[checker_klass] = v
+        checker_class = checker_from_string(k)
+        @checkers[checker_class] = v if checker_class
         @all.delete(k)
       end
     end

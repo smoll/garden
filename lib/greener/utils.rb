@@ -5,13 +5,13 @@ module Greener
       namespaced = str.gsub("/", "::")
       constantize "Greener::Checker::#{namespaced}"
     rescue NameError
-      raise Error::Standard, "Unknown checker specified: #{str}" # TODO: print warning instead of failing
+      $stdout.puts "Unknown checker specified: #{str}".color(:red)
     end
 
     def formatter_from_string(str)
       constantize "Greener::Formatter::#{str}"
     rescue NameError
-      raise Error::Standard, "Unknown formatter specified: #{str}" # TODO: print warning instead of failing
+      $stdout.puts "Unknown formatter specified: #{str}".color(:red)
     end
 
     private
