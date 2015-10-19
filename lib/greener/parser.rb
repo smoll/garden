@@ -5,7 +5,7 @@ module Greener
   # Wrapper around Gherkin3's Parser
   class Parser
     def initialize(feature)
-      @feature = feature # filepath or String
+      @feature = feature # String containing file contents
     end
 
     # Return an Abstract Syntax Tree from a feature file
