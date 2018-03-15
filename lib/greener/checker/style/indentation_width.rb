@@ -21,7 +21,8 @@ module Greener
         end
 
         def check_every_scenario
-          feature[:scenarioDefinitions].each do |scenario|
+          scenarios = feature[:scenarioDefinitions] || feature[:children]
+          scenarios.each do |scenario|
             scenario[:steps].each { |step| check_a_step(step) }
 
             next if scenario[:location][:column] == (1 + configured_indentation_width)
