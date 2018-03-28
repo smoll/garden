@@ -6,14 +6,10 @@ RSpec.describe Greener::Parser do
     it "parses a simple feature" do
       ast = subject.ast
       expect(ast).to eq(
-        type: :Feature,
-        tags: [],
-        location: { line: 1, column: 1 },
-        language: "en",
-        keyword: "Feature",
-        name: "a thing",
-        scenarioDefinitions: [],
-        comments: []
+        type: :GherkinDocument,
+        feature: { type: :Feature, tags: [],
+        location: { line: 1, column: 1 }, language: "en",
+        keyword: "Feature", name: "a thing", children: [] }, comments: []
       )
     end
   end

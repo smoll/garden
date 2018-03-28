@@ -1,5 +1,5 @@
-require "gherkin3/parser"
-require "gherkin3/token_scanner"
+require "gherkin/parser"
+require "gherkin/token_scanner"
 
 module Greener
   # Wrapper around Gherkin3's Parser
@@ -10,9 +10,12 @@ module Greener
 
     # Return an Abstract Syntax Tree from a feature file
     def ast
-      parser = Gherkin3::Parser.new
-      scanner = Gherkin3::TokenScanner.new(@feature)
-      parser.parse(scanner)
+      parser = Gherkin::Parser.new
+      if @feature.include?("Feature:")
+        parser.parse(Gherkin::TokenScanner.new(@feature))
+      else
+        parser.parse(Gherkin::TokenScanner.new(File.read(@feature)))[:feature]
+      end
     end
   end
 end

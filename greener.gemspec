@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "gherkin3", "~> 3.1.1"
+  spec.add_dependency "gherkin", "~> 4.0.0"
   spec.add_dependency "thor", "~> 0.19.1"
   spec.add_dependency "titleize", "~> 1.3.0"
 
