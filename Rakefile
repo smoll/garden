@@ -5,6 +5,14 @@ require "rubocop/rake_task"
 require "rspec/core/rake_task"
 require "cucumber/rake/task"
 
+# Temp fix for https://stackoverflow.com/a/35893941
+module TempFixForRakeLastComment
+  def last_comment
+    last_description
+  end
+end
+Rake::Application.send :include, TempFixForRakeLastComment
+
 RuboCop::RakeTask.new
 
 RSpec::Core::RakeTask.new
