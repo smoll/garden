@@ -32,7 +32,7 @@ module Greener
     def process_file(fname)
       @formatter_set.file_started
 
-      ast = Parser.new(fname).ast
+      ast = Parser.new(File.read(fname)).ast
 
       violations_in_file = []
 
